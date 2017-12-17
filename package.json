@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@storybook/cli": "3.2.17",
+    "lodash": "4.17.4",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "styled-components": "2.3.0"
