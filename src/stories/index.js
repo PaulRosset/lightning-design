@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
@@ -7,11 +7,12 @@ import { linkTo } from "@storybook/addon-links";
 import { Welcome } from "@storybook/react/demo";
 
 import { Button, Linked } from "../components/StyleComponents/Button";
-import { Segment } from "../components/StyleComponents/Segment";
-import { ShowColor } from "../components/StyleComponents/Config";
+import { Segment, Input } from "../components/StyleComponents/Segment";
+import { ShowColor, Image } from "../components/StyleComponents/Config";
 import { Icon } from "../components/StyleComponents/Icon";
+import { Header, VerticalAlign } from "../components/StyleComponents/Header";
 
-const Fragment = React.Fragment;
+import logo from "../flash.png";
 
 storiesOf("Welcome", module).add("to Storybook", () => (
   <Welcome showApp={linkTo("Button")} />
@@ -37,6 +38,19 @@ storiesOf("Clickable", module)
     </Fragment>
   ));
 
-storiesOf("Segment, Data Display", module).add("Segment", () => (
+storiesOf("Header", module).add("Header only", () => (
+  <Header>
+    <VerticalAlign left="10px">
+      <Image src={logo} height="40px" />
+    </VerticalAlign>
+    <VerticalAlign right="10px">
+      <Button onClick={action("clicker")}>
+        <i className="fab fa-github" /> Sign with github
+      </Button>
+    </VerticalAlign>
+  </Header>
+));
+
+storiesOf("Segment, Data Display, Dashboard", module).add("Segment", () => (
   <Segment size="14px">Test</Segment>
 ));

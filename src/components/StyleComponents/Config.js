@@ -31,3 +31,13 @@ export const ShowColor = () => (
     ))}
   </Container>
 );
+
+export const Image = styled.img`
+  height: ${prop => prop.height};
+`;
+
+export const ContainerApp = styled.div`
+  width: 80%;
+  margin: 0 auto;
+  padding: 2em 0;
+`;

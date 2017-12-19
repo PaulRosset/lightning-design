@@ -9,6 +9,7 @@ export const Button = styled.button`
   font-size: 13px;
   font-family: "Russo One", sans-serif;
   color: ${color.greyVeryClear};
+  float: ${prop => prop.floated};
   cursor: pointer;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);

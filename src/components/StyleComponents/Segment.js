@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
+import { Icon } from "./Icon";
 import { ConfigColor as color } from "./Config";
 
 export const Segment = styled.div`
