@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import _map from "lodash/map";
 
 export const ConfigColor = {
   greyBlack: "#353535",
@@ -34,10 +33,22 @@ export const ShowColor = () => (
 
 export const Image = styled.img`
   height: ${prop => prop.height};
+  border-radius: ${prop => prop.radius};
+  box-shadow: ${prop => prop.shadow};
 `;
 
 export const ContainerApp = styled.div`
   width: 80%;
   margin: 0 auto;
   padding: 2em 0;
+`;
+
+export const FlexContainer = styled.div`
+  display: flex;
+  flex-direction: ${prop => prop.direction};
+`;
+
+export const FlexChildrenName = styled.span`
+  align-self: center;
+  margin: 0 10px;
 `;

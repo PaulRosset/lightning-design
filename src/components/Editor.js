@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { ContainerApp } from "./StyleComponents/Config";
-import { Segment, Icon, Popup, Button } from "semantic-ui-react";
+import { Segment, Icon, Popup, Button, Confirm } from "semantic-ui-react";
 import {
   Editor,
   EditorState,
@@ -19,6 +19,8 @@ import {
   ToolButton
 } from "./StyleComponents/Editor";
 import { Markdown } from "./Markdown";
+import { ButtonConfirm, ButtonCancel } from "./Buttons";
+import { connect } from "react-redux";
 
 import "semantic-ui-css/semantic.min.css";
 
@@ -76,6 +78,40 @@ class EditorWysywig extends Component {
     this.setState(prevState => ({
       isPreview: !prevState.isPreview
     }));
+  }
+
+  onConfirm() {
+    console.log("Confirmed");
+  }
+
+  onCancel() {
+    this.setState({
+      openConfirm: false
+    });
+    return;
+  }
+
+  showConfirm() {
+    this.setState({
+      openConfirm: true
+    });
+  }
+
+  onConfirmDelete() {
+    console.log("Deleted");
+  }
+
+  onCancelDelete() {
+    this.setState({
+      openDelete: false
+    });
+    return;
+  }
+
+  showConfirmCancel() {
+    this.setState({
+      openDelete: true
+    });
   }
 
   render() {
@@ -171,16 +207,26 @@ class EditorWysywig extends Component {
             </Markdown>
           )}
           <Date value="12/07/1990 10:20:10" />
-          <Button>
-            <Icon style={{ margin: 0 }} name="checkmark" color="green" />
-          </Button>
-          <Button>
-            <Icon style={{ margin: 0 }} name="delete" color="red" />
-          </Button>
+          <ButtonConfirm
+            openConfirm={this.state.openConfirm}
+            showConfirm={() => this.showConfirm()}
+            onCancel={() => this.onCancel()}
+            onConfirm={() => this.onConfirm()}
+          />
+          <ButtonCancel
+            openDelete={this.state.openDelete}
+            showConfirmCancel={() => this.showConfirmCancel()}
+            onCancelDelete={() => this.onCancelDelete()}
+            onConfirmDelete={() => this.onConfirmDelete()}
+          />
         </Segment>
       </ContainerApp>
     );
   }
 }
 
-export default EditorWysywig;
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default connect(mapStateToProps)(EditorWysywig);
