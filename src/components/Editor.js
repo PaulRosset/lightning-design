@@ -6,7 +6,8 @@ import {
   EditorState,
   RichUtils,
   convertFromRaw,
-  convertToRaw
+  convertToRaw,
+  ContentState
 } from "draft-js";
 import { stateToHTML } from "draft-js-export-html";
 import { stateToMarkdown } from "draft-js-export-markdown";
@@ -32,9 +33,17 @@ class EditorWysywig extends Component {
     super(props);
     this.state = {
       editorState: EditorState.createEmpty(),
-      title: "Jesuisuntitle",
       isPreview: false
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.data.content) {
+      const initialState = ContentState.createFromText(this.props.data.content);
+      this.setState({
+        editorState: EditorState.createWithContent(initialState)
+      });
+    }
   }
 
   onChangeEditor(e) {
@@ -120,12 +129,12 @@ class EditorWysywig extends Component {
     console.log(stateToHTML(this.state.editorState.getCurrentContent()));
     return (
       <ContainerApp>
-        <Segment>
+        <Segment loading={this.props.data.isLoading}>
           <h2>Editor</h2>
           <p>You can edit the content of your light entry, right here:</p>
           <Title
             onChange={e => this.onChangeTitle(e)}
-            value={this.state.title}
+            value={this.props.data.title}
           />
           {!this.state.isPreview ? (
             <Body>
@@ -206,7 +215,7 @@ class EditorWysywig extends Component {
               />
             </Markdown>
           )}
-          <Date value="12/07/1990 10:20:10" />
+          <Date value={this.props.data.date} />
           <ButtonConfirm
             openConfirm={this.state.openConfirm}
             showConfirm={() => this.showConfirm()}
@@ -226,7 +235,8 @@ class EditorWysywig extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  editorData: state.editorData
 });
 
 export default connect(mapStateToProps)(EditorWysywig);

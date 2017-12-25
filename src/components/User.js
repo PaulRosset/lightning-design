@@ -11,7 +11,11 @@ class User extends Component {
 
   componentDidMount() {
     this.user = JSON.parse(localStorage.getItem("userData"));
-    this.props.dispatch(isLogged(this.user.token));
+    if (this.user) {
+      this.props.dispatch(isLogged(this.user.token));
+    } else {
+      this.props.dispatch(push("/"));
+    }
   }
 
   render() {

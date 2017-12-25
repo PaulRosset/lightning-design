@@ -1,7 +1,8 @@
-import { GETINFOSGITHUB, ISLOGGED, LOADING } from "./../types";
+import { GETINFOSGITHUB, ISLOGGED, LOADING, ISLOADED } from "./../types";
 import axios from "axios";
-import agent from "superagent";
 import { push } from "react-router-redux";
+import Rx from "rxjs";
+import UtilityGraph from "./Utility";
 
 const getInfosForAuthGitHub = user => ({
   type: GETINFOSGITHUB,
@@ -13,16 +14,23 @@ const isLoggedIn = isLogged => ({
   isLogged
 });
 
+const utils = new UtilityGraph("http://localhost:8081/graphql");
+
 // Thunk
 export const isLogged = access_token => {
-  const request = axios.get(
-    `https://api.github.com/user?access_token=${access_token}`
+  const obs$ = Rx.Observable.fromPromise(
+    axios.get(`https://api.github.com/user?access_token=${access_token}`)
   );
   return dispatch => {
     dispatch({ type: LOADING });
-    request.then(res => dispatch(isLoggedIn(true))).catch(err => {
-      dispatch(isLoggedIn(false));
-      dispatch(push("/"));
+    obs$.subscribe({
+      error: err => {
+        if (err) {
+          dispatch(isLoggedIn(false));
+          dispatch(push("/"));
+        }
+      },
+      complete: () => dispatch(isLoggedIn(true))
     });
   };
 };
@@ -34,12 +42,13 @@ export const getCodeAsync = (code, scope) => {
       "https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token",
     data: {
       client_id: "3132b8f936e031819b70",
-      client_secret: "778f7c99477c49a8f87f6ed6746444a8c3be5015",
+      client_secret: SECRET,
       code,
       state: scope
     }
   });
   return dispatch => {
+    dispatch({ type: LOADING });
     request
       .then(res => {
         let access_token = res.data.split("=");
@@ -59,8 +68,19 @@ export const getCodeAsync = (code, scope) => {
               token: access_token[0]
             };
             localStorage.setItem("userData", JSON.stringify(userData));
-            dispatch(getInfosForAuthGitHub(userData));
-            dispatch(push("/dashboard"));
+            const user$ = Rx.Observable.fromPromise(
+              axios(utils.addUser({ name, login, mail: email, uid: id }))
+            );
+            user$.subscribe(
+              res => console.log(res),
+              err => console.log(err),
+              () => {
+                console.log("DONE ADDED USER" + id);
+                dispatch({ type: ISLOADED });
+                dispatch(getInfosForAuthGitHub(userData));
+                dispatch(push("/dashboard"));
+              }
+            );
           })
           .catch(err => console.log(err));
       })

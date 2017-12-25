@@ -14,7 +14,7 @@ import {
   routerMiddleware,
   push
 } from "react-router-redux";
-import { user } from "./store/reducers";
+import { user, data, editorData } from "./store/reducers";
 import Dashboard from "./components/Dashboard";
 import Editor from "./App";
 import Home from "./components/Home";
@@ -26,6 +26,8 @@ const middleware = routerMiddleware(history);
 const store = createStore(
   combineReducers({
     user,
+    data,
+    editorData,
     router: routerReducer
   }),
   composeWithDevTools(applyMiddleware(middleware, thunk))

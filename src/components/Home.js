@@ -3,6 +3,7 @@ import HeaderMain from "./Header";
 import { getCodeAsync } from "./../store/actions/Login";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { Loader } from "semantic-ui-react";
 
 class Home extends Component {
   onSignIn() {
@@ -27,6 +28,7 @@ class Home extends Component {
         <HeaderMain signIn={() => this.onSignIn()} />
         <Link to="/dashboard">Dash</Link>
         <Link to="/editor">Editor</Link>
+        <Loader active={this.props.user.isLoading} />
       </Fragment>
     );
   }
