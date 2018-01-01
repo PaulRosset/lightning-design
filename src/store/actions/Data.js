@@ -1,15 +1,16 @@
 import axios from "axios";
 import Rx from "rxjs";
 import UtilityGraph from "./Utility";
-import { GETDASHBOARD, VISIBILITY, EDITDATA } from "./../types";
-import { race } from "rxjs/observable/race";
+import { GETDASHBOARD, VISIBILITY, EDITDATA, NEWENTRY } from "./../types";
+import moment from "moment";
+import { config } from "./../../config";
 
-const dataU = new UtilityGraph("http://localhost:8081/graphql");
+const dataU = new UtilityGraph(config.url);
 
-export const getDataDashBoard = uid => {
+export const getDataDashBoard = login => {
   const root$ = Rx.Observable.create(observer => {
     const child$ = Rx.Observable.fromPromise(
-      axios(dataU.getDataRelatedToUser(uid))
+      axios(dataU.getDataRelatedToUser(login))
     );
     child$.subscribe({
       next: res => observer.next(res.data.data.getDataRelatedUserEntry),
@@ -32,10 +33,10 @@ const changeVisibility = (id, visible) => ({
   payload: { id, visible }
 });
 
-export const editVisibility = (id, visible) => {
+export const editVisibility = (id, visible, uid, login) => {
   const root$ = Rx.Observable.create(observer => {
     const child$ = Rx.Observable.fromPromise(
-      axios(dataU.editVisibility({ id, visible }))
+      axios(dataU.editVisibility({ id, visible, uid, login }))
     );
     child$.subscribe({
       next: res => observer.next(res.data.data.editVisible),
@@ -72,5 +73,24 @@ export const getSimpleEntry = id => {
       err => console.log(err),
       () => console.log("AZ done") // mettre un loader
     );
+  };
+};
+
+const newSimpleEntryActions = dataNewEntry => ({
+  type: NEWENTRY,
+  payload: dataNewEntry
+});
+
+export const newSimpleEntry = idUser => {
+  const dataNewEntry = {
+    title: "",
+    id: "",
+    content: "",
+    date: moment(),
+    visible: false,
+    uid: idUser
+  };
+  return dispatch => {
+    dispatch(newSimpleEntryActions(dataNewEntry));
   };
 };

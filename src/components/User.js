@@ -5,10 +5,6 @@ import { connect } from "react-redux";
 import { push } from "react-router-redux";
 
 class User extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     this.user = JSON.parse(localStorage.getItem("userData"));
     if (this.user) {

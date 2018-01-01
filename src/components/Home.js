@@ -2,12 +2,12 @@ import React, { Component, Fragment } from "react";
 import HeaderMain from "./Header";
 import { getCodeAsync } from "./../store/actions/Login";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import { Loader } from "semantic-ui-react";
+import { Initial, Content, Plus, Footer } from "./staticHome";
 
 class Home extends Component {
   onSignIn() {
-    const w = window.open(
+    window.open(
       "http://github.com/login/oauth/authorize?client_id=3132b8f936e031819b70&redirect_uri=http://localhost:3000/&state=azerty",
       "_parent"
     );
@@ -15,20 +15,31 @@ class Home extends Component {
 
   componentDidMount() {
     if (this.props.location.search) {
-      let code = this.props.location.search.split("=");
-      const state = code;
-      code = code[1].split("&");
-      this.props.dispatch(getCodeAsync(code[0], state[2]));
+      const uri = new URL(window.location.href);
+      this.props.dispatch(
+        getCodeAsync(
+          uri.searchParams.get("code"),
+          uri.searchParams.get("state")
+        )
+      );
     }
   }
 
   render() {
+    const homePage = [
+      <Initial key="1" />,
+      <Content key="2" />,
+      <Plus key="3" />,
+      <Footer key="4" />
+    ];
     return (
       <Fragment>
         <HeaderMain signIn={() => this.onSignIn()} />
-        <Link to="/dashboard">Dash</Link>
-        <Link to="/editor">Editor</Link>
-        <Loader active={this.props.user.isLoading} />
+        {this.props.user.isLoading ? (
+          <Loader active={this.props.user.isLoading} />
+        ) : (
+          homePage
+        )}
       </Fragment>
     );
   }

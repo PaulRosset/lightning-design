@@ -1,7 +1,6 @@
 import React, { Fragment, Component } from "react";
 
 import HeaderMain from "./components/Header";
-import Dashboard from "./components/Dashboard";
 import EditorWysywig from "./components/Editor";
 import { connect } from "react-redux";
 import { getSimpleEntry } from "./store/actions/Data";
@@ -9,12 +8,27 @@ import { getSimpleEntry } from "./store/actions/Data";
 import "draft-js/dist/Draft.css";
 
 class Editor extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isNewEntry: true
+    };
+    this.newEntry = {
+      title: "",
+      content: "",
+      date: ""
+    };
+  }
+
   componentDidMount() {
     const url = new URL(window.location.href);
     if (url.searchParams.get("id")) {
-      const id = url.searchParams.get("id");
-      this.props.dispatch(getSimpleEntry(id));
-      console.log(id);
+      this.setState({ isNewEntry: false }, () => {
+        this.id = url.searchParams.get("id");
+        this.props.dispatch(getSimpleEntry(this.id));
+      });
+    } else {
+      this.setState({ isNewEntry: true });
     }
   }
 
@@ -22,7 +36,11 @@ class Editor extends Component {
     return (
       <Fragment>
         <HeaderMain />
-        <EditorWysywig data={this.props.editorData} />
+        <EditorWysywig
+          data={this.state.isNewEntry ? this.newEntry : this.props.editorData}
+          isNewEntry={this.state.isNewEntry}
+          id={this.state.isNewEntry ? "" : this.id}
+        />
       </Fragment>
     );
   }

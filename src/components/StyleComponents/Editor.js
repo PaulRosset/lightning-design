@@ -59,11 +59,6 @@ export const Body = props => (
 
 export const Date = props => (
   <InputContainer>
-    <Input
-      value="20/12/2016 21:21:12"
-      disabled
-      label="Date"
-      value={props.value}
-    />
+    <Input disabled label="Date" value={props.value} />
   </InputContainer>
 );

@@ -9,3 +9,8 @@ export const GETDASHBOARD = "getDataDashboard";
 export const VISIBILITY = "changeVisibility";
 
 export const EDITDATA = "editDatainEditor";
+export const NEWENTRY = "newEntry";
+
+export const SENDNEWENTRY = "sendNewEntry";
+export const UPDATEENTRY = "updateEntry";
+export const DELETEENTRY = "deleteEntry";

@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 import { ContainerApp } from "./StyleComponents/Config";
-import { Segment, Icon, Popup, Button, Confirm } from "semantic-ui-react";
+import { Segment, Icon, Popup } from "semantic-ui-react";
 import {
   Editor,
   EditorState,
   RichUtils,
-  convertFromRaw,
-  convertToRaw,
+  /* convertFromRaw,
+  convertToRaw, */
   ContentState
 } from "draft-js";
-import { stateToHTML } from "draft-js-export-html";
+// import { stateToHTML } from "draft-js-export-html";
 import { stateToMarkdown } from "draft-js-export-markdown";
-import { stateFromMarkdown } from "draft-js-import-markdown";
+// import { stateFromMarkdown } from "draft-js-import-markdown";
 import {
   Title,
   Body,
@@ -22,6 +22,9 @@ import {
 import { Markdown } from "./Markdown";
 import { ButtonConfirm, ButtonCancel } from "./Buttons";
 import { connect } from "react-redux";
+import { submitNewEntry, updateEntry } from "./../store/actions/Entry";
+import moment from "moment";
+import { push } from "react-router-redux";
 
 import "semantic-ui-css/semantic.min.css";
 
@@ -33,7 +36,8 @@ class EditorWysywig extends Component {
     super(props);
     this.state = {
       editorState: EditorState.createEmpty(),
-      isPreview: false
+      isPreview: false,
+      title: ""
     };
   }
 
@@ -90,7 +94,29 @@ class EditorWysywig extends Component {
   }
 
   onConfirm() {
-    console.log("Confirmed");
+    const user = JSON.parse(localStorage.getItem("userData"));
+    if (this.props.isNewEntry) {
+      this.props.dispatch(
+        submitNewEntry({
+          title: this.state.title,
+          content: this.state.editorState.getCurrentContent().getPlainText(),
+          date: moment(),
+          uid: user.id,
+          login: user.login,
+          visible: false
+        })
+      );
+    } else {
+      this.props.dispatch(
+        updateEntry({
+          id: this.props.id,
+          title: this.state.title || this.props.data.title,
+          content: this.state.editorState.getCurrentContent().getPlainText(),
+          uid: user.id,
+          login: user.login
+        })
+      );
+    }
   }
 
   onCancel() {
@@ -107,7 +133,7 @@ class EditorWysywig extends Component {
   }
 
   onConfirmDelete() {
-    console.log("Deleted");
+    this.props.dispatch(push("/dashboard"));
   }
 
   onCancelDelete() {
@@ -124,9 +150,13 @@ class EditorWysywig extends Component {
   }
 
   render() {
-    console.log(this.state.isPreview);
+    //console.log(this.state.isPreview);
     console.log(stateToMarkdown(this.state.editorState.getCurrentContent()));
-    console.log(stateToHTML(this.state.editorState.getCurrentContent()));
+    //console.log(stateToHTML(this.state.editorState.getCurrentContent()));
+    console.log(
+      "+>>>",
+      this.state.editorState.getCurrentContent().getPlainText()
+    );
     return (
       <ContainerApp>
         <Segment loading={this.props.data.isLoading}>
@@ -134,7 +164,7 @@ class EditorWysywig extends Component {
           <p>You can edit the content of your light entry, right here:</p>
           <Title
             onChange={e => this.onChangeTitle(e)}
-            value={this.props.data.title}
+            value={this.props.data.title || this.state.title}
           />
           {!this.state.isPreview ? (
             <Body>

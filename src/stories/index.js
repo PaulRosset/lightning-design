@@ -12,7 +12,7 @@ import { ShowColor, Image } from "../components/StyleComponents/Config";
 import { Icon } from "../components/StyleComponents/Icon";
 import { Header, VerticalAlign } from "../components/StyleComponents/Header";
 
-import logo from "../flash.png";
+import logo from "../imgs/flash.png";
 
 storiesOf("Welcome", module).add("to Storybook", () => (
   <Welcome showApp={linkTo("Button")} />

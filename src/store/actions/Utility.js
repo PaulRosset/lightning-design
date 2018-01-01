@@ -1,13 +1,3 @@
-import Rx from "rxjs";
-import axios from "axios";
-
-//url="http://localhost:8081/graphql"
-/*variable = {
-    name: "Paul Rosset",
-    login: "PaulRosset",
-    mail: "paulrosset96@gmail.com",
-    uid: "12"
-  } */
 class UtilityGraph {
   constructor(url) {
     this.url = url;
@@ -30,13 +20,13 @@ class UtilityGraph {
     };
   }
 
-  getDataRelatedToUser(uid) {
+  getDataRelatedToUser(login) {
     return {
       url: this.url,
       method: "post",
       data: {
         query: `{
-            getDataRelatedUserEntry(uid: "${uid}") {
+            getDataRelatedUserEntry(login: "${login}") {
               title
               id
               content
@@ -53,8 +43,8 @@ class UtilityGraph {
       url: this.url,
       method: "post",
       data: {
-        query: `mutation EditVisibleEntry($id: String, $visible: Boolean) {
-                editVisible(id: $id, visible: $visible) {
+        query: `mutation EditVisibleEntry($id: String, $visible: Boolean, $uid: String, $login: String) {
+                editVisible(id: $id, visible: $visible, uid: $uid, login: $login) {
                 visible
                 id
                 } }`,
@@ -76,8 +66,53 @@ class UtilityGraph {
               date
               visible
               uid
+              login
             }
           }`
+      }
+    };
+  }
+
+  addNewEntry(variables) {
+    return {
+      url: this.url,
+      method: "post",
+      data: {
+        query: `mutation CreateNewEntry($title: String, $content: String, $date: String, $uid: String, $login: String, $visible: Boolean) {
+                newSimpleEntry(title: $title, content: $content, date: $date, uid: $uid, login: $login, visible: $visible) {
+                id } }`,
+        variables
+      }
+    };
+  }
+
+  updateEntry(variables) {
+    return {
+      url: this.url,
+      method: "post",
+      data: {
+        query: `mutation UpdateNewEntry($id: String, $title: String, $content: String, $uid: String, $login: String) {
+          updateEntry(id: $id, title: $title, content: $content, uid: $uid, login: $login) {
+            title
+            id
+            title
+            content
+          }
+        }`,
+        variables
+      }
+    };
+  }
+
+  deleteEntry(variables) {
+    return {
+      url: this.url,
+      method: "post",
+      data: {
+        query: `mutation DeleteNewEntry($id: String, $uid: String, $login: String) {
+                deleteEntry(id: $id, uid: $uid, login: $login)
+              }`,
+        variables
       }
     };
   }

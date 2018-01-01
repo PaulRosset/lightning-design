@@ -5,7 +5,9 @@ import {
   ISLOADED,
   GETDASHBOARD,
   VISIBILITY,
-  EDITDATA
+  EDITDATA,
+  NEWENTRY,
+  DELETEENTRY
 } from "./types";
 
 export const user = (state = { isConnected: false }, actions) => {
@@ -39,6 +41,8 @@ export const data = (state = [], actions) => {
             ? { ...data, visible: actions.payload.visible }
             : data
       );
+    case DELETEENTRY:
+      return state.filter(value => value.id !== actions.id);
     default:
       return state;
   }
@@ -47,7 +51,13 @@ export const data = (state = [], actions) => {
 export const editorData = (state = { isLoading: true }, actions) => {
   switch (actions.type) {
     case EDITDATA:
-      return { ...actions.payload, isLoading: false };
+      return { ...state, ...actions.payload, isLoading: false };
+    case NEWENTRY:
+      return {
+        ...state,
+        ...actions.payload,
+        isLoading: false
+      };
     default:
       return state;
   }

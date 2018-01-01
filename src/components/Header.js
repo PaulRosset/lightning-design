@@ -8,8 +8,8 @@ import {
   FlexChildrenName
 } from "./StyleComponents/Config";
 import { connect } from "react-redux";
-import logo from "../flash.png";
-import { Image as ImageS, Loader } from "semantic-ui-react";
+import logo from "./../imgs/flash.png";
+import { Loader, Icon } from "semantic-ui-react";
 import User from "./User";
 
 const ProfileUser = props => (
@@ -39,7 +39,21 @@ class HeaderMain extends Component {
               this.props.user.isLoading ? (
                 <Loader active inline size="small" />
               ) : this.props.user.isConnected && user ? (
-                <ProfileUser img={user.avatar_url}>{user.name}</ProfileUser>
+                <Fragment>
+                  <VerticalAlign right="160px">
+                    <Link
+                      to="/dashboard"
+                      style={{
+                        display: "inline-flex",
+                        margin: "0 5px",
+                        color: "black"
+                      }}
+                    >
+                      <Icon name="dashboard" /> Dash
+                    </Link>
+                  </VerticalAlign>
+                  <ProfileUser img={user.avatar_url}>{user.name}</ProfileUser>
+                </Fragment>
               ) : (
                 <Button onClick={() => this.props.signIn()}>
                   <i className="fab fa-github" /> Sign with github

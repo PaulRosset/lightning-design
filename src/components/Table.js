@@ -1,7 +1,10 @@
 import React from "react";
-import { Table, Icon, Checkbox, Popup } from "semantic-ui-react";
+import { Table, Icon, Checkbox, Popup, Confirm } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
+
+const takeFirstSentence = entry => entry.split("\n")[0];
 
 export const DashTable = props => (
   <Table>
@@ -25,9 +28,28 @@ export const DashTable = props => (
             />
           </Table.Cell>
           <Table.Cell>{entry.title}</Table.Cell>
-          <Table.Cell>{entry.content}</Table.Cell>
+          <Table.Cell>
+            <ReactMarkdown
+              className="markdown"
+              source={takeFirstSentence(entry.content)}
+            />
+          </Table.Cell>
           <Table.Cell>{entry.date}</Table.Cell>
           <Table.Cell>
+            <Popup
+              trigger={
+                <Link to={`/viewer?id=${entry.id}`} style={{ color: "#000" }}>
+                  <Icon
+                    onClick={() => props.OnView(entry.id)}
+                    name="settings"
+                    link
+                    bordered
+                    circular
+                  />
+                </Link>
+              }
+              content="View the input"
+            />
             <Popup
               trigger={
                 <Link to={`/editor?id=${entry.id}`} style={{ color: "#000" }}>
@@ -41,6 +63,11 @@ export const DashTable = props => (
                 </Link>
               }
               content="Edit the input"
+            />
+            <Confirm
+              open={props.open}
+              onCancel={() => props.cancelDelete()}
+              onConfirm={() => props.confirmDelete()}
             />
             <Popup
               trigger={

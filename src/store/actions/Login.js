@@ -3,6 +3,9 @@ import axios from "axios";
 import { push } from "react-router-redux";
 import Rx from "rxjs";
 import UtilityGraph from "./Utility";
+import { config } from "./../../config";
+
+const utils = new UtilityGraph(config.url);
 
 const getInfosForAuthGitHub = user => ({
   type: GETINFOSGITHUB,
@@ -13,8 +16,6 @@ const isLoggedIn = isLogged => ({
   type: ISLOGGED,
   isLogged
 });
-
-const utils = new UtilityGraph("http://localhost:8081/graphql");
 
 // Thunk
 export const isLogged = access_token => {
@@ -41,8 +42,8 @@ export const getCodeAsync = (code, scope) => {
     url:
       "https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token",
     data: {
-      client_id: "3132b8f936e031819b70",
-      client_secret: SECRET,
+      client_id: config.client_id,
+      client_secret: config.token_secret,
       code,
       state: scope
     }
