@@ -43,3 +43,7 @@ h5,
 h6 {
   font-size: 1.3rem !important;
 }
+
+.ui.divider {
+  margin: 0 !important;
+}

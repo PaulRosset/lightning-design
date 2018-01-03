@@ -14,3 +14,7 @@ export const NEWENTRY = "newEntry";
 export const SENDNEWENTRY = "sendNewEntry";
 export const UPDATEENTRY = "updateEntry";
 export const DELETEENTRY = "deleteEntry";
+
+export const NEWGROUP = "newGroup";
+export const GETGROUPS = "getGroup";
+export const DELETEGROUP = "deleteGroup";

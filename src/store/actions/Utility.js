@@ -116,6 +116,52 @@ class UtilityGraph {
       }
     };
   }
+
+  getGroup(login) {
+    return {
+      url: this.url,
+      method: "post",
+      data: {
+        query: `{
+          getGroupRelatedUser(login: "${login}") {
+           id
+           name
+            login
+          }
+        }`
+      }
+    };
+  }
+
+  createNewGroup(variables) {
+    return {
+      url: this.url,
+      method: "post",
+      data: {
+        query: `mutation CreateNewGroup($name: String, $uid: String, $login: String) {
+          createGroup(name: $name, uid: $uid, login: $login) {
+                login
+                name
+                id
+        } 
+      }`,
+        variables
+      }
+    };
+  }
+
+  deleteGroup(variables) {
+    return {
+      url: this.url,
+      method: "post",
+      data: {
+        query: `mutation DeleteGroup($id: String, $uid: String, $login: String, $name: String) {
+          deleteGroup(id: $id, name: $name, login: $login, uid: $uid)
+      }`,
+        variables
+      }
+    };
+  }
 }
 
 export default UtilityGraph;

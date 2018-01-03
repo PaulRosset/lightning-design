@@ -7,7 +7,10 @@ import {
   VISIBILITY,
   EDITDATA,
   NEWENTRY,
-  DELETEENTRY
+  DELETEENTRY,
+  GETGROUPS,
+  NEWGROUP,
+  DELETEGROUP
 } from "./types";
 
 export const user = (state = { isConnected: false }, actions) => {
@@ -58,6 +61,29 @@ export const editorData = (state = { isLoading: true }, actions) => {
         ...actions.payload,
         isLoading: false
       };
+    default:
+      return state;
+  }
+};
+
+export const groupsData = (state = [], actions) => {
+  switch (actions.type) {
+    case GETGROUPS:
+      return actions.payload;
+    case DELETEGROUP:
+      return state.filter(value => value.id !== actions.payload.id);
+    default:
+      return state;
+  }
+};
+
+export const error = (state = {}, actions) => {
+  switch (actions.type) {
+    case NEWGROUP:
+      if (actions.payload) {
+        return { ...state, isErrorOnNewGroup: true, message: actions.payload };
+      }
+      return { ...state, isErrorOnNewGroup: false };
     default:
       return state;
   }

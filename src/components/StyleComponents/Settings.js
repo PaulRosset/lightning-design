@@ -4,7 +4,7 @@ export const AdditionalInfos = styled.div`
   display: ${props => props.display};
   position: absolute;
   right: 10px;
-  top: 180px;
+  top: ${props => props.top}px;
   z-index: 100;
   width: 160px;
   padding: 10px;
@@ -35,4 +35,26 @@ export const Input = styled.input`
 
 export const InputContainer = styled.div`
   margin: 10px 0;
+`;
+
+export const Alert = styled.span`
+  color: ${props => props.color};
+`;
+
+export const ContainerGroup = styled.div`
+  margin: 5px;
+`;
+
+export const Title6 = styled.h6`
+  margin: 5px 0;
+  font-size: 14px !important;
+`;
+
+export const ContainerButton = styled.div`
+  float: ${props => props.floated};
+`;
+
+export const ContainerListGroups = styled.div`
+  overflow-y: auto;
+  height: 125px;
 `;

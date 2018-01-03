@@ -31,7 +31,7 @@ class ViewerEdit extends React.Component {
           link
           style={{ float: "right" }}
         />
-        <AdditionalInfos display={this.state.show ? "block" : "none"}>
+        <AdditionalInfos display={this.state.show ? "block" : "none"} top="180">
           <p>Additional Informations:</p>
           <InputContainer>
             <b>ID Entry:</b> <Input value={id} type="text" readOnly size="85" />
