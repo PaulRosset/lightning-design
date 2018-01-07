@@ -10,7 +10,8 @@ import {
 
 class ViewerEdit extends React.Component {
   state = {
-    show: false
+    show: false,
+    id: this.props.data.id
   };
 
   onShow() {
@@ -20,7 +21,7 @@ class ViewerEdit extends React.Component {
   }
 
   render() {
-    const { visible, id, title, content, date, group } = this.props.data;
+    const { visible, title, content, date, group } = this.props.data;
     return (
       <ContainerViewer>
         <Icon
@@ -38,7 +39,8 @@ class ViewerEdit extends React.Component {
         >
           <p>Additional Informations:</p>
           <InputContainer>
-            <b>ID Entry:</b> <Input value={id} type="text" readOnly size="85" />
+            <b>ID Entry:</b>{" "}
+            <Input value={this.state.id} type="text" readOnly size="85" />
           </InputContainer>
           <InputContainer>
             Visible:{" "}
