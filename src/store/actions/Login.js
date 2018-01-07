@@ -4,6 +4,7 @@ import { push } from "react-router-redux";
 import Rx from "rxjs";
 import UtilityGraph from "./Utility";
 import { config } from "./../../config";
+import uuidv4 from "uuid";
 
 const utils = new UtilityGraph(config.url);
 
@@ -61,24 +62,22 @@ export const getCodeAsync = (code, scope) => {
         );
         request
           .then(user => {
-            const { name, avatar_url, id, email, login } = user.data;
+            const { name, avatar_url, email, login } = user.data;
             const userData = {
               name,
               avatar_url,
-              id,
               email,
               login,
               token: access_token.get("access_token")
             };
             localStorage.setItem("userData", JSON.stringify(userData));
             const user$ = Rx.Observable.fromPromise(
-              axios(utils.addUser({ name, login, mail: email, uid: id }))
+              axios(utils.addUser({ name, login, mail: email, uid: uuidv4() }))
             );
             user$.subscribe(
               res => console.log(res),
               err => console.log(err),
               () => {
-                console.log("DONE ADDED USER" + id);
                 dispatch({ type: ISLOADED });
                 dispatch(getInfosForAuthGitHub(userData));
                 dispatch(push("/dashboard"));
