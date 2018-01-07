@@ -67,6 +67,7 @@ class UtilityGraph {
               visible
               uid
               login
+              group
             }
           }`
       }
@@ -78,8 +79,8 @@ class UtilityGraph {
       url: this.url,
       method: "post",
       data: {
-        query: `mutation CreateNewEntry($title: String, $content: String, $date: String, $uid: String, $login: String, $visible: Boolean) {
-                newSimpleEntry(title: $title, content: $content, date: $date, uid: $uid, login: $login, visible: $visible) {
+        query: `mutation CreateNewEntry($title: String, $content: String, $date: String, $uid: String, $login: String, $visible: Boolean, $group: String) {
+                newSimpleEntry(title: $title, content: $content, date: $date, uid: $uid, login: $login, visible: $visible, group: $group) {
                 id } }`,
         variables
       }
@@ -91,12 +92,13 @@ class UtilityGraph {
       url: this.url,
       method: "post",
       data: {
-        query: `mutation UpdateNewEntry($id: String, $title: String, $content: String, $uid: String, $login: String) {
-          updateEntry(id: $id, title: $title, content: $content, uid: $uid, login: $login) {
+        query: `mutation UpdateNewEntry($id: String, $title: String, $content: String, $uid: String, $login: String, $group: String) {
+          updateEntry(id: $id, title: $title, content: $content, uid: $uid, login: $login, group: $group) {
             title
             id
             title
             content
+            group
           }
         }`,
         variables

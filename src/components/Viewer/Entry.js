@@ -1,10 +1,10 @@
 import React from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
-import { SpanToolTip } from "./StyleComponents/Config";
+import { SpanToolTip } from "./../StyleComponents/Config";
 import { Icon, Label } from "semantic-ui-react";
 
 const Entry = props => (
-  <div>
+  <div style={{ marginTop: 10 }}>
     <CopyToClipboard text={props.text} onCopy={() => this.props.onCopy()}>
       <Label as="a" color="black" image>
         <img alt={props.title} src={props.img} />

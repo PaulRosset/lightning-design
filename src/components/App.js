@@ -1,9 +1,9 @@
 import React, { Fragment, Component } from "react";
 
-import HeaderMain from "./components/Header";
-import EditorWysywig from "./components/Editor";
+import HeaderMain from "./Header";
+import EditorWysywig from "./Editor";
 import { connect } from "react-redux";
-import { getSimpleEntry } from "./store/actions/Data";
+import { getSimpleEntry } from "./../store/actions/Data";
 
 import "draft-js/dist/Draft.css";
 
@@ -30,6 +30,11 @@ class Editor extends Component {
     } else {
       this.setState({ isNewEntry: true });
     }
+    this.options = JSON.parse(localStorage.getItem("groups")).map(value => ({
+      key: value.id,
+      value: value.name,
+      text: value.name
+    }));
   }
 
   render() {
@@ -40,6 +45,7 @@ class Editor extends Component {
           data={this.state.isNewEntry ? this.newEntry : this.props.editorData}
           isNewEntry={this.state.isNewEntry}
           id={this.state.isNewEntry ? "" : this.id}
+          options={this.options}
         />
       </Fragment>
     );
@@ -48,7 +54,8 @@ class Editor extends Component {
 
 const mapStateToProps = state => ({
   data: state.data,
-  editorData: state.editorData
+  editorData: state.editorData,
+  groups: state.groupsData
 });
 
 export default connect(mapStateToProps)(Editor);

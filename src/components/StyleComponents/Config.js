@@ -32,6 +32,7 @@ export const ShowColor = () => (
 );
 
 export const Image = styled.img`
+  cursor: ${prop => prop.link};
   height: ${prop => prop.height};
   border-radius: ${prop => prop.radius};
   box-shadow: ${prop => prop.shadow};
@@ -63,6 +64,7 @@ export const FlexContainer = styled.div`
 export const FlexChildrenName = styled.span`
   align-self: center;
   margin: 0 10px;
+  cursor: pointer;
 `;
 
 export const ContainerStatic = styled.div`

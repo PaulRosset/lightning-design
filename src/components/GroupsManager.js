@@ -1,18 +1,17 @@
 import React, { Fragment } from "react";
-import { Loader, Icon, Button, Divider } from "semantic-ui-react";
+import { Icon, Button, Divider } from "semantic-ui-react";
 import {
   AdditionalInfos,
   Input,
   InputContainer,
   ContainerGroup,
-  Alert,
   Title6,
   ContainerButton,
   ContainerListGroups
 } from "./StyleComponents/Settings";
 
 export const GroupsManager = props => (
-  <AdditionalInfos display={props.show ? "block" : "none"}>
+  <AdditionalInfos display={props.show ? "block" : "none"} width="45%">
     <p>
       Enter the group name:
       <Icon
@@ -43,6 +42,7 @@ export const GroupsManager = props => (
     >
       Add
     </Button>
+    {props.alert ? props.alert.message : null}
     <Title6>Group manager:</Title6>
     <ContainerListGroups>
       {props.groups.map((value, index) => (
@@ -51,7 +51,7 @@ export const GroupsManager = props => (
           <ContainerGroup>
             <Icon name="linkify" />
             {value.name}
-            <ContainerButton floated="right">
+            <ContainerButton floated="right" space="5">
               <Icon
                 name="remove"
                 link

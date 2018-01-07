@@ -27,7 +27,7 @@ export const Initial = () => (
         </p>
       </Grid.Column>
       <Grid.Column>
-        <Image src={logo} size="tiny" inline />
+        <Image src={logo} size="tiny" inline={true} />
       </Grid.Column>
     </Grid.Row>
   </Grid>

@@ -49,7 +49,10 @@ export const updateEntry = entry => {
   });
   return dispatch => {
     root$.subscribe({
-      next: res => dispatch(updatedEntry()),
+      next: res => {
+        dispatch(updatedEntry());
+        /* localStorage.setItem("groups", JSON.stringify(entry)); */
+      },
       error: err => err,
       complete: () => dispatch(push("/dashboard"))
     });

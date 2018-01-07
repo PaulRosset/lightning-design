@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { ContainerApp } from "./StyleComponents/Config";
-import { Segment, Icon, Popup } from "semantic-ui-react";
+import { Segment, Icon, Popup, Select } from "semantic-ui-react";
 import {
   Editor,
   EditorState,
@@ -103,7 +103,8 @@ class EditorWysywig extends Component {
           date: moment(),
           uid: user.id,
           login: user.login,
-          visible: false
+          visible: false,
+          group: this.state.group
         })
       );
     } else {
@@ -113,7 +114,8 @@ class EditorWysywig extends Component {
           title: this.state.title || this.props.data.title,
           content: this.state.editorState.getCurrentContent().getPlainText(),
           uid: user.id,
-          login: user.login
+          login: user.login,
+          group: this.state.group || this.props.data.group
         })
       );
     }
@@ -149,14 +151,17 @@ class EditorWysywig extends Component {
     });
   }
 
+  groupChange(e, { value }) {
+    this.setState({
+      group: value
+    });
+  }
+
   render() {
     //console.log(this.state.isPreview);
     console.log(stateToMarkdown(this.state.editorState.getCurrentContent()));
     //console.log(stateToHTML(this.state.editorState.getCurrentContent()));
-    console.log(
-      "+>>>",
-      this.state.editorState.getCurrentContent().getPlainText()
-    );
+    console.log(this.state.editorState.getCurrentContent().getPlainText());
     return (
       <ContainerApp>
         <Segment loading={this.props.data.isLoading}>
@@ -166,6 +171,18 @@ class EditorWysywig extends Component {
             onChange={e => this.onChangeTitle(e)}
             value={this.props.data.title || this.state.title}
           />
+          <div style={{ margin: "0 10px" }}>
+            {/* <div>Group:</div> */}
+            <Select
+              placeholder={
+                this.state.isNewEntry || !this.props.data.group
+                  ? "Enter a group"
+                  : this.props.data.group
+              }
+              options={this.props.options}
+              onChange={(e, values) => this.groupChange(e, values)}
+            />
+          </div>
           {!this.state.isPreview ? (
             <Body>
               <BarButton>

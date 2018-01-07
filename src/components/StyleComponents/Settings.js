@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export const AdditionalInfos = styled.div`
   display: ${props => props.display};
@@ -6,9 +7,8 @@ export const AdditionalInfos = styled.div`
   right: 10px;
   top: ${props => props.top}px;
   z-index: 100;
-  width: 160px;
   padding: 10px;
-  width: 45%;
+  width: ${props => props.width};
   margin-top: 2px;
   list-style: none;
   background-color: #fff;
@@ -16,6 +16,16 @@ export const AdditionalInfos = styled.div`
   border: 1px solid rgba(27, 31, 35, 0.15);
   border-radius: 4px;
   box-shadow: 0 3px 12px rgba(27, 31, 35, 0.15);
+  animation: ${props => props.anim} 0.8s;
+
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 export const VisibleInfos = styled.div`
@@ -52,9 +62,19 @@ export const Title6 = styled.h6`
 
 export const ContainerButton = styled.div`
   float: ${props => props.floated};
+  margin-right: ${props => props.space}px;
 `;
 
 export const ContainerListGroups = styled.div`
   overflow-y: auto;
   height: 125px;
+`;
+
+export const Linked = styled(Link)`
+  color: #000;
+  opacity: 0.7;
+
+  &:hover {
+    opacity: 1;
+  }
 `;

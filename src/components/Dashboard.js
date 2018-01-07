@@ -6,14 +6,9 @@ import { connect } from "react-redux";
 import { getDataDashBoard, editVisibility } from "./../store/actions/Data";
 import { getGroup, createGroup, deleteGroup } from "./../store/actions/Group";
 import { deleteEntry } from "./../store/actions/Entry";
-import { Loader, Icon, Button, Divider } from "semantic-ui-react";
+import { Loader, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import {
-  AdditionalInfos,
-  Input,
-  InputContainer,
-  Alert
-} from "./StyleComponents/Settings";
+import { Alert } from "./StyleComponents/Settings";
 import { GroupsManager } from "./GroupsManager";
 
 import "semantic-ui-css/semantic.min.css";
@@ -27,7 +22,8 @@ class Dashboard extends Component {
       show: false,
       groupName: "",
       showIsExistingGroup: false,
-      isExistGroup: false
+      isExistGroup: false,
+      alert: {}
     };
   }
 
@@ -38,10 +34,23 @@ class Dashboard extends Component {
   }
 
   deleteGroup(group) {
-    console.log({ ...group, login: this.user.login, uid: this.user.id });
     this.props.dispatch(
       deleteGroup({ ...group, login: this.user.login, uid: this.user.id })
     );
+    this.setState({
+      alert: {
+        message: (
+          <Alert color="green">
+            Group <b>{group.name}</b> Deleted
+          </Alert>
+        )
+      }
+    });
+    this.timeDelete = setTimeout(() => {
+      this.setState({ alert: {} }, () => {
+        clearTimeout(this.timeDelete);
+      });
+    }, 2000);
   }
 
   onEdit(id) {}
@@ -49,7 +58,6 @@ class Dashboard extends Component {
   onView(id) {}
 
   onDelete(id) {
-    console.log(id);
     this.setState({ open: true });
     this.id = id;
   }
@@ -106,8 +114,20 @@ class Dashboard extends Component {
       createGroup(this.state.groupName, this.user.id, this.user.login)
     );
     this.setState({
+      alert: {
+        message: (
+          <Alert color="green">
+            Group <b>{this.state.groupName}</b> added
+          </Alert>
+        )
+      },
       groupName: ""
     });
+    this.timeAdd = setTimeout(() => {
+      this.setState({
+        alert: {}
+      });
+    }, 2000);
     this.props.dispatch(getGroup(this.user.login));
   }
 
@@ -152,6 +172,7 @@ class Dashboard extends Component {
             groups={this.props.groups}
             exitGroup={() => this.setState({ show: false })}
             deleteGroup={group => this.deleteGroup(group)}
+            alert={this.state.alert}
           />
           {data ? (
             <DashTable
@@ -170,6 +191,11 @@ class Dashboard extends Component {
         </ContainerApp>
       </Fragment>
     );
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timeAdd);
+    clearTimeout(this.timeDelete);
   }
 }
 

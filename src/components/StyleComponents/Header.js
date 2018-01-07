@@ -17,6 +17,9 @@ export const VerticalAlign = styled.div`
   transform: translateY(-50%);
   right: ${prop => prop.right};
   left: ${prop => prop.left};
+  z-index: 5;
 `;
 
-export const Header = ({ children }) => <HeaderC>{children}</HeaderC>;
+export const Header = ({ children, onClick }) => (
+  <HeaderC onClick={onClick}>{children}</HeaderC>
+);

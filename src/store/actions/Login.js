@@ -52,10 +52,12 @@ export const getCodeAsync = (code, scope) => {
     dispatch({ type: LOADING });
     request
       .then(res => {
-        let access_token = res.data.split("=");
-        access_token = access_token[1].split("&");
+        const access_token = new URL(`${window.location.href}?${res.data}`)
+          .searchParams;
         const request = axios.get(
-          `https://api.github.com/user?access_token=${access_token[0]}`
+          `https://api.github.com/user?access_token=${access_token.get(
+            "access_token"
+          )}`
         );
         request
           .then(user => {
@@ -66,7 +68,7 @@ export const getCodeAsync = (code, scope) => {
               id,
               email,
               login,
-              token: access_token[0]
+              token: access_token.get("access_token")
             };
             localStorage.setItem("userData", JSON.stringify(userData));
             const user$ = Rx.Observable.fromPromise(

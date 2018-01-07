@@ -33,7 +33,10 @@ export const getGroup = login => {
 
   return dispatch => {
     source$.subscribe({
-      next: groups => dispatch(getGroups(groups)),
+      next: groups => {
+        dispatch(getGroups(groups));
+        localStorage.setItem("groups", JSON.stringify(groups));
+      },
       error: err => err,
       complete: () => "complete"
     });
@@ -66,7 +69,7 @@ export const deleteGroup = group => {
     const request$ = Rx.Observable.fromPromise(axios(dataU.deleteGroup(group)));
     request$.subscribe({
       next: res => observer.next(res.data.data.deleteGroup),
-      error: err => observer.err(),
+      error: err => observer.error(err),
       complete: () => observer.complete()
     });
   });

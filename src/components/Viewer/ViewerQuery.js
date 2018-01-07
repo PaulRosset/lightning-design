@@ -6,7 +6,7 @@ import { Input, InputContainer } from "./../StyleComponents/Settings";
 import MultipleCube from "./../../imgs/cubes.png";
 import SingleCube from "./../../imgs/single-cube.png";
 import Graphql from "./../../imgs/graphql.png";
-import Entry from "./../Entry";
+import Entry from "./Entry";
 
 import "../../../node_modules/highlight.js/styles/atom-one-dark.css";
 
@@ -63,8 +63,7 @@ class ViewerQuery extends React.Component {
           />
         </Span>
         <Entry
-          text={`
-{
+          text={`{
     getSimpleEntry(id: "${this.props.data.id}") {
       title
       id
@@ -82,7 +81,9 @@ class ViewerQuery extends React.Component {
         />
         <Divider />
         <Entry
-          text={`
+          text={
+            !this.props.data.group
+              ? `
 {
     getDataRelatedUserEntry(login: "${this.props.data.login}") {
       title
@@ -91,9 +92,22 @@ class ViewerQuery extends React.Component {
       date
       visible
       login
+      group
     }
 }
-          `}
+          `
+              : `{
+    getDataRelatedGroup(group: "${this.props.data.group}") {
+      title
+      id
+      content
+      date
+      visible
+      login
+      group
+      }
+}`
+          }
           onCopy={() => this.onCopyTwo()}
           img={MultipleCube}
           title="Multiple Entrys"

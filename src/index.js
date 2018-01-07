@@ -13,7 +13,7 @@ import {
 } from "react-router-redux";
 import { user, data, editorData, groupsData, error } from "./store/reducers";
 import Dashboard from "./components/Dashboard";
-import Editor from "./App";
+import Editor from "./components/App";
 import Home from "./components/Home";
 import Viewer from "./components/Viewer/Viewer";
 import thunk from "redux-thunk";

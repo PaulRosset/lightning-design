@@ -20,7 +20,7 @@ class ViewerEdit extends React.Component {
   }
 
   render() {
-    const { visible, id, title, content, date } = this.props.data;
+    const { visible, id, title, content, date, group } = this.props.data;
     return (
       <ContainerViewer>
         <Icon
@@ -31,7 +31,11 @@ class ViewerEdit extends React.Component {
           link
           style={{ float: "right" }}
         />
-        <AdditionalInfos display={this.state.show ? "block" : "none"} top="180">
+        <AdditionalInfos
+          display={this.state.show ? "block" : "none"}
+          top="180"
+          width="45%"
+        >
           <p>Additional Informations:</p>
           <InputContainer>
             <b>ID Entry:</b> <Input value={id} type="text" readOnly size="85" />
@@ -44,10 +48,17 @@ class ViewerEdit extends React.Component {
             />
           </InputContainer>
         </AdditionalInfos>
-        <Label style={{ marginBottom: 20 }}>
+        <Label style={{ marginBottom: 20 }} color="yellow">
           Title:
           <h2>{title}</h2>
         </Label>
+
+        {group ? (
+          <Label style={{ marginBottom: 20 }} color="blue">
+            Group:
+            <h2>{group}</h2>
+          </Label>
+        ) : null}
 
         <Markdown input={content}>
           <Label as="a" color="blue" ribbon="right">

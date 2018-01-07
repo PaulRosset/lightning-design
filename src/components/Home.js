@@ -15,13 +15,10 @@ class Home extends Component {
 
   componentDidMount() {
     if (this.props.location.search) {
-      const uri = new URL(window.location.href);
-      this.props.dispatch(
-        getCodeAsync(
-          uri.searchParams.get("code"),
-          uri.searchParams.get("state")
-        )
-      );
+      const uri = new URL(
+        window.location.href + this.props.router.location.search
+      ).searchParams;
+      this.props.dispatch(getCodeAsync(uri.get("code", uri.get("state"))));
     }
   }
 
@@ -45,7 +42,8 @@ class Home extends Component {
   }
 }
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  router: state.router
 });
 
 export default connect(mapStateToProps)(Home);
