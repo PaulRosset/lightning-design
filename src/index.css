@@ -47,3 +47,7 @@ h6 {
 .ui.divider {
   margin: 4px 0 !important;
 }
+
+.ui.divider.dividerQuery {
+  margin: 1rem 0 !important;
+}

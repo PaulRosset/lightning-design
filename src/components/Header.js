@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import logo from "./../imgs/flash.png";
 import { Loader, Icon, Divider } from "semantic-ui-react";
 import User from "./User";
+import { ISLOGGED } from "./../store/types";
 
 const ProfileUser = props => (
   <FlexContainer
@@ -48,6 +49,10 @@ class HeaderMain extends Component {
   }
 
   disconnect() {
+    this.props.dispatch({
+      type: ISLOGGED,
+      payload: false
+    });
     localStorage.removeItem("userData");
     localStorage.removeItem("groups");
   }

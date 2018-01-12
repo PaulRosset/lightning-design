@@ -62,7 +62,7 @@ export const getSimpleEntry = id => {
   const root$ = Rx.Observable.create(observer => {
     const child$ = Rx.Observable.fromPromise(axios(dataU.getSimpleEntry(id)));
     child$.subscribe({
-      next: res => observer.next(res.data.data.getSimpleEntry),
+      next: res => observer.next(res.data.data.getSimpleEntryBack),
       error: err => observer.error(err),
       complete: () => observer.complete()
     });

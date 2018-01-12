@@ -67,7 +67,7 @@ export const ContainerButton = styled.div`
 
 export const ContainerListGroups = styled.div`
   overflow-y: auto;
-  height: 125px;
+  max-height: 125px;
 `;
 
 export const Linked = styled(Link)`
@@ -77,4 +77,9 @@ export const Linked = styled(Link)`
   &:hover {
     opacity: 1;
   }
+`;
+
+export const AdditionalInfosExport = styled(AdditionalInfos)`
+  left: 150px;
+  right: auto;
 `;

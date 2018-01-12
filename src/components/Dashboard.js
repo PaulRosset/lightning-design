@@ -113,6 +113,7 @@ class Dashboard extends Component {
     this.props.dispatch(
       createGroup(this.state.groupName, this.user.id, this.user.login)
     );
+    this.props.dispatch(getGroup(this.user.login));
     this.setState({
       alert: {
         message: (
@@ -173,6 +174,7 @@ class Dashboard extends Component {
             exitGroup={() => this.setState({ show: false })}
             deleteGroup={group => this.deleteGroup(group)}
             alert={this.state.alert}
+            addGroupToDataBase={() => this.addGroupToDataBase()}
           />
           {data ? (
             <DashTable

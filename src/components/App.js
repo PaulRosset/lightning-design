@@ -35,6 +35,10 @@ class Editor extends Component {
       value: value.name,
       text: value.name
     }));
+    this.fullOptions = [
+      { key: 1, value: "", text: "No group" },
+      ...this.options
+    ];
   }
 
   render() {
@@ -45,7 +49,7 @@ class Editor extends Component {
           data={this.state.isNewEntry ? this.newEntry : this.props.editorData}
           isNewEntry={this.state.isNewEntry}
           id={this.state.isNewEntry ? "" : this.id}
-          options={this.options}
+          options={this.fullOptions}
         />
       </Fragment>
     );

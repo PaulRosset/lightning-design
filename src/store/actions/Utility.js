@@ -38,6 +38,23 @@ class UtilityGraph {
     };
   }
 
+  getUser(login) {
+    return {
+      url: this.url,
+      method: "post",
+      data: {
+        query: `{
+          getUser(login: "${login}") {
+           id
+            login
+            uid
+            mail
+          }
+        }`
+      }
+    };
+  }
+
   editVisibility(variables) {
     return {
       url: this.url,
@@ -59,7 +76,7 @@ class UtilityGraph {
       method: "post",
       data: {
         query: `{
-            getSimpleEntry(id: "${id}") {
+          getSimpleEntryBack(id: "${id}") {
               title
               id
               content

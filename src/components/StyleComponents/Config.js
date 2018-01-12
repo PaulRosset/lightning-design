@@ -61,6 +61,10 @@ export const FlexContainer = styled.div`
   flex-direction: ${prop => prop.direction};
 `;
 
+export const FlexInline = styled.div`
+  display: inline-flex;
+`;
+
 export const FlexChildrenName = styled.span`
   align-self: center;
   margin: 0 10px;

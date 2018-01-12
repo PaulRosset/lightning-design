@@ -20,6 +20,14 @@ class ViewerEdit extends React.Component {
     }));
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.id !== this.props.data.id) {
+      this.setState({
+        id: this.props.data.id
+      });
+    }
+  }
+
   render() {
     const { visible, title, content, date, group } = this.props.data;
     return (

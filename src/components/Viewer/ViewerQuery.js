@@ -9,6 +9,7 @@ import Graphql from "./../../imgs/graphql.png";
 import Entry from "./Entry";
 
 import "../../../node_modules/highlight.js/styles/atom-one-dark.css";
+import Label from "semantic-ui-react/dist/commonjs/elements/Label/Label";
 
 class ViewerQuery extends React.Component {
   state = {
@@ -51,6 +52,7 @@ class ViewerQuery extends React.Component {
       <ContainerViewer>
         <h1>Query Mechanisms</h1>
         <InputContainer>
+          <Label color="grey">POST</Label>
           <Input value={config.url} type="text" readOnly size="35" />
         </InputContainer>
         <Span floated="right">
@@ -79,7 +81,7 @@ class ViewerQuery extends React.Component {
           reference={ref => (this.simpleEntry = ref)}
           copied={this.state.copied}
         />
-        <Divider />
+        <Divider className="dividerQuery" />
         <Entry
           text={
             !this.props.data.group
@@ -97,7 +99,9 @@ class ViewerQuery extends React.Component {
 }
           `
               : `{
-    getDataRelatedGroup(group: "${this.props.data.group}") {
+    getDataRelatedGroup(group: "${this.props.data.group}", login: "${
+                  this.props.data.login
+                }") {
       title
       id
       content
@@ -105,7 +109,7 @@ class ViewerQuery extends React.Component {
       visible
       login
       group
-      }
+    }
 }`
           }
           onCopy={() => this.onCopyTwo()}

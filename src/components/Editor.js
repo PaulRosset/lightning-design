@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { ContainerApp } from "./StyleComponents/Config";
-import { Segment, Icon, Popup, Select } from "semantic-ui-react";
+import { ContainerApp, FlexInline } from "./StyleComponents/Config";
+import { AdditionalInfosExport } from "./StyleComponents/Settings";
+import OptionsExport from "./OptionsExport";
+import { Segment, Icon, Popup, Select, Form } from "semantic-ui-react";
 import {
   Editor,
   EditorState,
@@ -9,7 +11,7 @@ import {
   convertToRaw, */
   ContentState
 } from "draft-js";
-// import { stateToHTML } from "draft-js-export-html";
+import { stateToHTML } from "draft-js-export-html";
 import { stateToMarkdown } from "draft-js-export-markdown";
 // import { stateFromMarkdown } from "draft-js-import-markdown";
 import {
@@ -37,7 +39,8 @@ class EditorWysywig extends Component {
     this.state = {
       editorState: EditorState.createEmpty(),
       isPreview: false,
-      title: ""
+      title: "",
+      date: moment()
     };
   }
 
@@ -100,7 +103,7 @@ class EditorWysywig extends Component {
         submitNewEntry({
           title: this.state.title,
           content: this.state.editorState.getCurrentContent().getPlainText(),
-          date: moment(),
+          date: this.state.date,
           uid: user.id,
           login: user.login,
           visible: false,
@@ -158,10 +161,9 @@ class EditorWysywig extends Component {
   }
 
   render() {
-    //console.log(this.state.isPreview);
-    console.log(stateToMarkdown(this.state.editorState.getCurrentContent()));
+    /* console.log(stateToMarkdown(this.state.editorState.getCurrentContent()));
     //console.log(stateToHTML(this.state.editorState.getCurrentContent()));
-    console.log(this.state.editorState.getCurrentContent().getPlainText());
+    console.log(this.state.editorState.getCurrentContent().getPlainText()); */
     return (
       <ContainerApp>
         <Segment loading={this.props.data.isLoading}>
@@ -172,7 +174,6 @@ class EditorWysywig extends Component {
             value={this.props.data.title || this.state.title}
           />
           <div style={{ margin: "0 10px" }}>
-            {/* <div>Group:</div> */}
             <Select
               placeholder={
                 this.state.isNewEntry || !this.props.data.group
@@ -219,7 +220,6 @@ class EditorWysywig extends Component {
                   }
                   content="Code"
                 />
-
                 <Popup
                   inverted
                   trigger={
@@ -262,7 +262,11 @@ class EditorWysywig extends Component {
               />
             </Markdown>
           )}
-          <Date value={this.props.data.date} />
+          <Date
+            value={
+              this.props.isNewEntry ? this.state.date : this.props.data.date
+            }
+          />
           <ButtonConfirm
             openConfirm={this.state.openConfirm}
             showConfirm={() => this.showConfirm()}
